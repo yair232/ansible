@@ -1,0 +1,20 @@
+- name: Create EC2 instance and install Docker, Python, Docker Compose, and configure SSH
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: ~/keypem/yair.pem
+    ssh_public_key: ~/.ssh/id_rsa.pub
+    dockerfile_path: ./Dockerfile
+    index_html_path: ./index.html
+    docker_image_name: my-nginx-image
+  tasks:
+    - name: Run Python script to create EC2 instance
+      shell: |
+        . ~/myenv/bin/activate
+        python3 create-ec2.py
+      register: ec2_creation_output
+
+    - name: Extract EC2 public IP from the script output
+      set_fact:
+        ec2_public_ip: "{{ ec2_creation_output.stdout.strip() }}"
