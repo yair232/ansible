@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository
+                git branch: 'main', url: 'https://github.com/yair232/ansible.git'
+            }
+        }
+
+        stage('Run First Playbook') {
+            steps {
+                script {
+                    def output = sh(script: '''
+                        # Use bash explicitly to handle the source command
+                        bash -c "source ~/myenv/bin/activate && ansible-playbook firs-playbook.yaml"
+                    ''', returnStdout: true).trim()
+                    
+                    // Extract the IP address from the output if needed
+                    // Assuming the output is just the IP address, otherwise, you might need to parse it
+                    env.EC2_IP = output
+                    echo "EC2 IP Address: ${env.EC2_IP}"
+                }
+            }
+        }
+
+        stage('Setup SSH Known Hosts') {
+            steps {
+                script {
+                    // Ensure the ~/.ssh directory exists
+                    sh 'mkdir -p ~/.ssh'
+                    
+                    // Use ssh-keyscan to add the EC2 instance's SSH key to known_hosts
+                    sh "ssh-keyscan -H ${env.EC2_IP} >> ~/.ssh/known_hosts"
+                }
+            }
+        }
+
+        stage('Run Second Playbook') {
+            steps {
+                sh '''
+                    # Use bash explicitly to handle the source command
+                    bash -c "source ~/myenv/bin/activate && ansible-playbook 2-playbook.yaml"
+                '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build Docker image from the Dockerfile
+                sh 'docker build -t my-nginx-image .'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace if needed
+            cleanWs()
+        }
+    }
+}

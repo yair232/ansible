@@ -23,3 +23,7 @@
         module: copy
         content: "[app]\n{{ ec2_public_ip }}"
         dest: inventory
+
+    - name: Output EC2 IP address
+      debug:
+        msg: "{{ ec2_public_ip }}"
