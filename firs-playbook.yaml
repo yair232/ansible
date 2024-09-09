@@ -5,11 +5,27 @@
   vars:
     ansible_user: ubuntu
     ansible_ssh_private_key_file: ~/keypem/yair.pem
-    ssh_public_key: ~/.ssh/id_rsa.pub
-    dockerfile_path: ./Dockerfile
-    index_html_path: ./index.html
-    docker_image_name: my-nginx-image
   tasks:
+    - name: Install Python 3 on the Ansible control server
+      local_action:
+        module: apt
+        name: python3
+        state: present
+      become: true
+
+    - name: Install pip on the Ansible control server
+      local_action:
+        module: apt
+        name: python3-pip
+        state: present
+      become: true
+
+    - name: Install boto3 using pip on the Ansible control server
+      local_action:
+        module: command
+        cmd: pip3 install boto3
+      become: true
+
     - name: Run Python script to create EC2 instance
       command: python3 create.py
       register: ec2_creation_output
