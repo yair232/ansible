@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Stylish Browser</title>
+    <style>
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(-45deg, #ff4e50, #f9d423, #24c6dc, #2c3e50);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .browser-window {
+        width: 80%;
+        height: 60%;
+        background-color: #2c2c2c;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .browser-header {
+        height: 45px;
+        background-color: #3d3d3d;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .browser-header div {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+
+      .red-button {
+        background-color: #ff5f56;
+      }
+
+      .yellow-button {
+        background-color: #ffbd2e;
+      }
+
+      .green-button {
+        background-color: #27c93f;
+      }
+
+      .address-bar {
+        flex: 1;
+        height: 30px;
+        margin: 0 25px;
+        background-color: #4e4e4e;
+        border: none;
+        border-radius: 15px;
+        padding: 0 15px;
+        color: #f5f5f5;
+        font-size: 1rem;
+        transition: width 0.4s ease-in-out;
+      }
+
+      .address-bar:focus {
+        outline: none;
+        width: 95%;
+      }
+
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 45px);
+        position: relative;
+      }
+
+      .content img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid #f5f5f5;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+        animation: spin 20s linear infinite;
+      }
+
+      .content img:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        animation-play-state: paused;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="browser-window">
+      <div class="browser-header">
+        <div class="red-button"></div>
+        <div class="yellow-button"></div>
+        <div class="green-button"></div>
+        <input
+          class="address-bar"
+          type="text"
+          value="https://www.example.com"
+          readonly />
+      </div>
+      <div class="content">
+        <img src="https://via.placeholder.com/200" alt="Rotating Image" />
+      </div>
+    </div>
+  </body>
+</html>
