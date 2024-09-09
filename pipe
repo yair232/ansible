@@ -13,26 +13,21 @@ pipeline {
             steps {
                 script {
                     def output = sh(script: '''
-                        # Use bash explicitly to handle the source command
-                        bash -c "source ~/myenv/bin/activate && ansible-playbook firs-playbook.yaml"
+                    # Use bash explicitly to handle the source command
+                    bash -c "source ~/myenv/bin/activate && ansible-playbook firs-playbook.yaml"
                     ''', returnStdout: true).trim()
-                    
-                    // Extract the IP address from the output if needed
-                    // Assuming the output is just the IP address, otherwise, you might need to parse it
                     env.EC2_IP = output
                     echo "EC2 IP Address: ${env.EC2_IP}"
                 }
             }
         }
 
-        stage('Setup SSH Known Hosts') {
+        stage('Wait for 30 Seconds') {
             steps {
                 script {
-                    // Ensure the ~/.ssh directory exists
-                    sh 'mkdir -p ~/.ssh'
-                    
-                    // Use ssh-keyscan to add the EC2 instance's SSH key to known_hosts
-                    sh "ssh-keyscan -H ${env.EC2_IP} >> ~/.ssh/known_hosts"
+                    // Wait for 30 seconds
+                    sleep(time: 100, unit: 'SECONDS')
+                    echo "Waited for 100 seconds"
                 }
             }
         }
@@ -40,8 +35,8 @@ pipeline {
         stage('Run Second Playbook') {
             steps {
                 sh '''
-                    # Use bash explicitly to handle the source command
-                    bash -c "source ~/myenv/bin/activate && ansible-playbook 2-playbook.yaml"
+                # Use bash explicitly to handle the source command
+                bash -c "source ~/myenv/bin/activate && ansible-playbook 2-playbook.yaml"
                 '''
             }
         }

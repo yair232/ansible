@@ -45,3 +45,18 @@
         name: docker
         state: started
         enabled: yes
+
+    - name: Pull specific Docker image
+      ansible.builtin.docker_image:
+        name: yair23/nginx-docker
+        tag: latest
+        source: pull
+
+    - name: Run Docker container from image
+      ansible.builtin.docker_container:
+        name: my_container
+        image: yair23/nginx-docker:latest
+        state: started
+        ports:
+          - "80:80" # Update with necessary ports
+        restart_policy: always
