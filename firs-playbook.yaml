@@ -2,44 +2,45 @@
 - name: Create EC2 instance and install Docker, Python, Docker Compose, and configure SSH
   hosts: localhost
   gather_facts: false
+  become: true
+  become_method: sudo
+  become_user: root
   vars:
     ansible_user: ubuntu
     ansible_ssh_private_key_file: ~/keypem/yair.pem
   tasks:
     - name: Install Python 3 on the Ansible control server
-      local_action:
-        module: apt
+      apt:
         name: python3
         state: present
-      become: true
 
     - name: Install pip on the Ansible control server
-      local_action:
-        module: apt
+      apt:
         name: python3-pip
         state: present
-      become: true
 
     - name: Install boto3 using pip on the Ansible control server
-      local_action:
-        module: command
+      command:
         cmd: pip3 install boto3
-      become: true
 
     - name: Run Python script to create EC2 instance
-      command: python3 create.py
+      command:
+        cmd: python3 create.py
       register: ec2_creation_output
+      failed_when: ec2_creation_output.rc != 0
 
     - name: Extract EC2 public IP from the script output
       set_fact:
         ec2_public_ip: "{{ ec2_creation_output.stdout.strip() }}"
+      when: ec2_creation_output.rc == 0
 
     - name: Write EC2 public IP to inventory file
-      local_action:
-        module: copy
+      copy:
         content: "[app]\n{{ ec2_public_ip }}"
-        dest: inventory
+        dest: /absolute/path/to/inventory
+      when: ec2_public_ip is defined
 
     - name: Output EC2 IP address
       debug:
         msg: "{{ ec2_public_ip }}"
+      when: ec2_public_ip is defined
