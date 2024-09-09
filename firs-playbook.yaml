@@ -11,7 +11,7 @@
     docker_image_name: my-nginx-image
   tasks:
     - name: Run Python script to create EC2 instance
-      command: python3 create-ec2.py
+      command: python3 create.py
       register: ec2_creation_output
 
     - name: Extract EC2 public IP from the script output
