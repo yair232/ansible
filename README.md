@@ -1,21 +1,13 @@
-AWS Infrastructure Automation with Ansible and Jenkins
+# Ansible Playbooks for AWS EC2 Deployment
 
+This repository contains a set of Ansible playbooks for deploying and configuring EC2 instances with Docker, Jenkins, and other necessary tools.
 
-This project automates AWS infrastructure management using Ansible playbooks and Jenkins pipelines. It includes provisioning EC2 instances, configuring them, and managing containers.
+## Installation
 
-Playbooks
-1. Install Python, Pip, and Boto3
-This playbook installs essential dependencies like Python, pip, and boto3 to enable AWS interactions.
+To install the required packages and set up the environment on a new EC2 instance, follow these steps.
 
-2. EC2 Instance Setup
-This playbook creates an EC2 instance on AWS and generates an inventory file with the new instance's IP address.
+### 1. Clone the Repository
 
-3. Instance Configuration and Container Setup
-Once the EC2 instance is ready, this playbook installs the required software on the instance and runs a container on it.
-
-Docker Automation
-The pipeline also includes a parallel stage that builds a Docker image and pushes it to Docker Hub.
-
-Jenkins Pipeline
-The Jenkins pipeline runs these playbooks and orchestrates the infrastructure setup, including Docker image creation and deployment.
-
+```bash
+git clone https://github.com/yair232/ansible.git
+cd ansible
