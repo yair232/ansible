@@ -39,7 +39,7 @@ pipeline {
                         script {
                             def output = sh(script: '''
                             # Use bash explicitly to handle the source command
-                            bash -c "source ~/myenv/bin/activate && ansible-playbook firs-playbook.yaml"
+                            bash -c "source ~/myenv/bin/activate && ansible-playbook first-playbook.yaml"
                             ''', returnStdout: true).trim()
                             env.EC2_IP = output
                             echo "EC2 IP Address: ${env.EC2_IP}"
@@ -63,7 +63,7 @@ pipeline {
             steps {
                 sh '''
                 # Use bash explicitly to handle the source command
-                bash -c "source ~/myenv/bin/activate && ansible-playbook 2-playbook.yaml"
+                bash -c "source ~/myenv/bin/activate && ansible-playbook second-playbook.yaml"
                 '''
             }
         }
