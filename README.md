@@ -2,7 +2,8 @@
 
 ## Overview
 
-This guide walks you through setting up an AWS EC2 instance with Docker, Jenkins, and Ansible. You'll also configure a CI/CD pipeline that automatically builds Docker images and deploys updates whenever changes are made to your repository.
+This guide walks you through setting up an AWS EC2 instance that automatically creates itself, installs necessary packages, and starts a container. The setup includes Docker, Jenkins, and Ansible, with a CI/CD pipeline configured to build Docker images and deploy updates whenever changes are made to your repository. By following these steps, you’ll streamline the deployment process, ensuring that your EC2 instance is fully configured and operational with minimal manual intervention.
+
 
 ## Steps to Follow
 
