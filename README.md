@@ -1,4 +1,6 @@
 AWS Infrastructure Automation with Ansible and Jenkins
+
+
 This project automates AWS infrastructure management using Ansible playbooks and Jenkins pipelines. It includes provisioning EC2 instances, configuring them, and managing containers.
 
 Playbooks
